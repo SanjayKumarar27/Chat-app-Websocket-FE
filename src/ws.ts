@@ -2,7 +2,7 @@
 let socket:WebSocket|null=null;
 
 export function ConnectWebSocket(){
-    socket=new WebSocket("ws://localhost:8081");
+    socket=new WebSocket("wss://chat-app-websocket-be.onrender.com");
     socket.onopen=()=>{
         console.log("Conneted to server")
     }
