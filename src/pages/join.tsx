@@ -1,7 +1,7 @@
 
 import { useRef} from 'react'
 import '../App.css'
-import {  getSocket } from '../ws';
+import {  ConnectWebSocket} from '../ws';
 import { useNavigate } from 'react-router-dom';
 
 export function Join() {
@@ -11,7 +11,7 @@ export function Join() {
     const navigate=useNavigate();
     function SendMessage() {
       
-        const socket = getSocket();
+        const socket = ConnectWebSocket();
         if (!socket) {
             return;
         }
@@ -19,15 +19,17 @@ export function Join() {
             return;
         }
         const id = roomref.current.value;
-        const item = {
-            type: "join",
-            payload: {
-                roomId: id
-            }
-        }
+        socket.onopen=()=>{
+          const item = {
+              type: "join",
+              payload: {
+                  roomId: id
+              }
+          }
 
-        socket.send(JSON.stringify(item));
-        navigate(`chat/${id}`);
+          socket.send(JSON.stringify(item));
+          navigate(`chat/${id}`);
+        }
 
     }
  
